@@ -16,57 +16,40 @@ def test_check_all_brackets() -> bool:
     return len(stack) == 0
 
 
-# check_all_brackets("{[()]}")      # True
-# check_all_brackets("{[(])}")      # False  (неправильный порядок)
-# check_all_brackets("{{[[(())]]}}")# True
-
-# Содержит символ "@"
-# После "@" есть хотя бы одна точка .
-# Не начинается и не заканчивается на "@" или "."
-
-emails = [
-    "test@gmail.com",
-    "wrong@com",
-    "@yahoo.com",
-    "admin@mail.ru",
-    "alex@.ru",
-    "valid@ya.ru"
-]
-# результат: ["test@gmail.com", "admin@mail.ru", "valid@ya.ru"]
+# users = [
+#     {"id": 1, "name": "Иван", "age": 25},
+#     {"id": 2, "name": "Анна", "age": -5},
+#     {"id": 3, "name": "Петр", "age": 0},
+#     {"id": 4, "name": "Сергей", "age": 31},
+#     {"id": 5, "name": "", "age": 20}
+# ]
 
 
-def email_guard(arr:list[str]) -> list[str]:
-    result = []
-    target = {}
-
-    for el in arr:
-        if '@' in el:
-            for ind, c in enumerate(el):
-                if el[0] == '@' or el[-1] == '@':
-                    continue
-                if el[0] == '.' or el[-1] == '.':
-                    continue
-                target[c] = ind
-        if target['.'] > target['@']:
-            result.append(el)
-            target = {}
-    return result
+def validate_users(users:list[dict])->list[dict]:
+    valid = []
+    for u in users:
+        if u['name'] == '':
+            continue
+        if u['age'] < 1:
+            continue
+        valid.append(u)
+    return valid
 
 
-def test_email_guard():
-    data = emails
-    result = []
-    target = {}
+# orders1 = [{'id': 1, 'amount': 100}, {'id': 2, 'amount': 50}]
+# orders2 = [{'id': 2, 'amount': 70}, {'id': 3, 'amount': 40}]
 
-    for el in data:
-        if '@' in el:
-            for ind, c in enumerate(el):
-                if el[0] == '@' or el[-1] == '@':
-                    continue
-                if el[0] == '.' or el[-1] == '.':
-                    continue
-                target[c] = ind
-        if target['.'] > target['@']:
-            result.append(el)
-            target = {}
-    print(result)
+
+def merge_order(ord_one, ord_two):
+    result = {}
+    result_arr = []
+    for el in ord_one:
+        result[el['id']] = el['amount']
+    for el in ord_two:
+        if el['id'] in result:
+            result[el['id']] += el['amount']
+        else:
+            result[el['id']] = el['amount']
+    for k, v in result.items():
+        result_arr.append({'id': k, 'amount': v})
+    return result_arr
