@@ -1,6 +1,3 @@
-from audioop import reverse
-
-
 def test_check_all_brackets() -> bool:
     s = "{[()]}"
     pairs = {')': '(', ']': '[', '}': '{'}
@@ -285,9 +282,41 @@ orders_05_11 = [
 
 
 def best_costumers(orders:list[dict])-> list[str]:
-    # total = {el['user'] : el['amount'] for el in orders if el['user'] not in total else el['user'] += el['amount']}
-    # return [name for name in total if name > 500]
     total = {}
+    filtered = {}
     for o in orders:
         total[o['user']] = total.get(o['user'], 0) + o['amount']
-    # return sorted(total.items(), key= lambda x: x[1], reverse=True)]
+
+    for k,v in total.items():
+        if v > 500:
+            filtered[k] = v
+    return list(name for name, value in sorted(filtered.items(), key= lambda x: x[1], reverse=True))
+
+
+
+# 06 11 2025
+# '{[[][][]}}('
+
+def check_symbols(data)-> bool:
+    pairs = {')':'(', '}':'{', ']':'['}
+    stack = []
+
+    for el in data:
+        if el in pairs.values():
+            stack.append(el)
+        elif el in pairs:
+            if not stack or pairs[el] != stack[-1]:
+                return False
+            stack.pop()
+        else:
+            return False
+
+    return not stack
+
+# fibonacci by python
+
+def fibo(n):
+    a,b = 0,1
+    for _ in range(n):
+        a,b = b, a+b
+        return a
