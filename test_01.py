@@ -343,22 +343,9 @@ import re
 text = "apple banana apple orange banana banana kiwi apple"
 # [('apple', 3), ('banana', 3), ('kiwi', 1)]
 
-def test_most_popular_words():
-
-    word_list = text.split(' ')
-    top_words_dict = {}
-
+def most_popular_words(words, positions):
+    word_list = words.split(' ')
+    counter = {}
     for w in word_list:
-        top_words_dict[w] = top_words_dict.get(w, 0) + 1
-
-    tuples = []
-    for w, c in top_words_dict.items():
-        tuples.append((w,c))
-
-
-    by_count_sorted = sorted(top_words_dict, key= lambda x: x[1], reverse=True)
-
-    print(tuples)
-    print(list((word, value) for word, value in sorted(top_words_dict.items(), key= lambda x: x[1], reverse=True)))
-
-#     Остается сортировать при равенстве значений и выводить нужное количество
+        counter[w] = counter.get(w, 0) + 1
+    return list((word, value) for word, value in sorted(counter.items(), key= lambda x: (x[-1], x[0])))[:positions]
