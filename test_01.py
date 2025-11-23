@@ -370,3 +370,88 @@ def most_popular_words(words, positions):
 
 def top_players(players:list[dict]) -> list[dict]:
     return sorted(players, key=lambda x: (-x['wins'], x['losses', x['name']]))
+
+def test_sobes():
+    print(['123','da'][False][1]) # 2
+
+
+
+
+
+import time
+
+class A:
+    def __init__(self):
+        # Вызывается при создании объекта
+        self.text = "IIM"
+
+    @staticmethod
+    # статический метод не требует экземпляра
+    def what_time():
+        return f"{time.time()}"
+
+    @property
+    # превращает метод в атрибут только для чтения.
+    def useless_getter(self):
+        return self.text
+
+    def __private_or_public(self):
+        # Имя искажается чз name-mangling. псевдо приватность
+        return 1
+
+    def __str__(self):
+        # Магические методы обычно вызываются встроенными функциями: str(obj) вызывает str().
+        return self.text
+
+
+ob = A()
+
+A.what_time()
+ob.what_time()
+
+ob.useless_getter
+
+ob._A__private_or_public()
+
+ob.__str__()
+
+
+# just test
+
+example_data = {
+    "id":12,
+    "discountPercentage": 0,
+    "title": "boom",
+    "price": 123
+}
+
+import requests
+
+def test_base_check():
+    url = 'https://dummyjson.com/products'
+    response = requests.get(url)
+
+
+    assert response.status_code == 200
+    assert response.headers['content-type'].startswith('application/json')
+
+    data = response.json()
+    products = data['products']
+
+    assert 'products' in data
+    assert isinstance(products, list)
+
+    has_discount = False
+
+    for p in products:
+        assert isinstance(p, dict)
+        assert isinstance(p['title'], str)
+        assert p['id'] > 0
+        assert p['price'] > 0
+        assert 'discountPercentage' in p
+        if p['discountPercentage'] > 0:
+            has_discount = True
+    assert has_discount == True
+
+
+
