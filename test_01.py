@@ -1,3 +1,6 @@
+from importlib.metadata import Lookup
+
+
 def test_check_all_brackets() -> bool:
     s = "{[()]}"
     pairs = {')': '(', ']': '[', '}': '{'}
@@ -571,23 +574,50 @@ def test_authorization_valid(api):
     assert isinstance(data['token'], str)
 
 @pytest.mark.parametrize(
-    "login, pass, code", [
+    "login, passw, code", [
         ('', '', 400),
         ('', '123', 400),
         ('roma', '', 400),
         ('roma', 'wrong', 403)
     ]
 )
-def test_auth_negative():
-    pass
-#
+# def test_auth_negative(api, login, passw, code):
+#     resp = api.post('auth/login', {'user': login, 'pass': passw})
+#     assert resp.status_code == code
+
+
+# 01.12.2025 decorators
+
+
+def null_decorator(func):
+    return 'decorated' + func
+
+def upper_decorator(func):
+    def wrapper():
+        base_text = func()
+        result = base_text.upper()
+        return result
+    return wrapper()
+
+def strong(func):
+    def wrapper():
+        return '<strong>' + func() + '</strong>'
+    return wrapper()
+
+
+
+def greet():
+    return 'Hello'
+
+
+
+def test_01():
+    print(upper_decorator(greet))
 
 
 
 
 
 
-
-
-
-
+if __name__ == "__main__":
+    print(greet)
