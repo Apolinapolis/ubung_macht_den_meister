@@ -1,6 +1,3 @@
-from importlib.metadata import Lookup
-
-
 def test_check_all_brackets() -> bool:
     s = "{[()]}"
     pairs = {')': '(', ']': '[', '}': '{'}
