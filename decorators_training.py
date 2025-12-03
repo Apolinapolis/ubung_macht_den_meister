@@ -38,16 +38,23 @@ def retry(func, times):
     return wrapper
 
 
-@retry(times=3)
-def my_function(name, job):
-    return f'{name} - {job}'
+# @retry(times=3)
+# def my_function(name, job):
+#     return f'{name} - {job}'
+
 
 
 
 if __name__ == "__main__":
+    def logger(f):
+        def wrapper(*args, **kwargs):
+            print('i"m observ')
+            return f(*args, **kwargs)
+        return wrapper
 
-    @trace
-    def names(name, job):
-        return f'{name} - {job}'
+    def greet(*args, **kwargs):
+        print(f"Привет, {args} & {kwargs}")
 
-    names('dimon', 'developer')
+    decorated = logger(greet)
+    decorated('ops', 'uo','kamon', named='baba', name='deda')
+
