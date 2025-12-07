@@ -612,7 +612,32 @@ def test_01():
     print(upper_decorator(greet))
 
 
+def double_list(arr):
+    return [2* x for x in arr]
 
+print(double_list([1, 2, 3]))
+
+def count_chars(s:str):
+    result = {}
+
+    for elem in s:
+        if elem in result:
+            result[elem] += 1
+        else:
+            result[elem] = 1
+    return result
+
+print(count_chars("hello"))
+
+
+def longest_word(arr:list[str]):
+    result = ''
+    for el in arr:
+        if len(result) < len(el):
+            result = el
+    return result
+
+print(longest_word(["python", "qa", "automation"]))
 
 
 
