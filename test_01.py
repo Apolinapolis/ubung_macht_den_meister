@@ -667,6 +667,40 @@ def test_letters_mixer():
     print(itog)
 
 
+def total(*args):
+    result = 0
+    if args:
+        for x in args:
+            result += x
+    return result
+
+def merge_dict(**kwargs):
+    return kwargs
+
+
+def exception_try(x):
+    try:
+        return 100 / x
+    except ZeroDivisionError:
+        return 'ops!'
+    finally:
+        print('finally callback')
+
+exception_try(0)
+
+
+
+def file_reader(file):
+    with open(file, 'r') as f:
+        for i in range(3):
+            line = f.readline()
+            if not line:
+                break
+            print(line)
+
+
+
+
 
 
 if __name__ == "__main__":
