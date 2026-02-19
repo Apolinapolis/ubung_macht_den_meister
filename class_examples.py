@@ -34,7 +34,7 @@ class Person:
     def full_name(self):
         return f'{self.last_name} {self.name}'
 
-    @full_name.setterй
+    @full_name.setter
     def full_name(self, value):
         name_surname = value.split(' ')
         self.name, self.last_name = name_surname
@@ -57,6 +57,9 @@ print(di.full_name)
 di.full_name = 'changed surname'
 print(di.name)
 print(di.last_name)
+print(Person.public)
+print(Person._protected)
+print(ob._protected)
 
 ob.__str__()
 
@@ -70,4 +73,23 @@ b = C()
 a = b = C()
 #print(a == b) # 2)true - ссылаются на один объект в памяти
 
-# 34.35 min stop
+#TODO Вызвать все методы класса (from myFlower)
+
+class A:
+
+    def __init__(self):
+        self.text = None
+
+    def __str__(self):
+        return self.text
+
+    @staticmethod
+    def what_time():
+        return f'current time'
+
+    @property
+    def useless_getter(self):
+        return self.text
+
+    def __private_or_public(self):
+        return 1
