@@ -21,3 +21,14 @@ def get_unic_improved(s:str)->list[int]:
 
 
 print(get_unic_improved("привет 7 мир 5 7 3 -13"))
+
+
+
+def binary_array_to_number(arr):
+    result = ''
+    for el in arr:
+        result += el
+    return int(result,2)
+
+
+print(binary_array_to_number([0,1,0,0,1]))

@@ -112,15 +112,16 @@ def unstable_func(*str):
 
 #TODO вернуть отсортированный список уникальных квадратов из строки for WB
 
-def get_unic_square(data:str)->list[int]:
+def get_unic_squares(data:str)->list:
     result = set()
+
     for el in data.split():
         try:
             n = int(el)
             result.add(n*n)
         except ValueError:
             pass
+
     return sorted(result)
 
-
-#print(get_unic_square('fskl 4 3  9 -88 - sdf a3'))
+print(get_unic_squares('sdjk 82 ksjdf l 8 24 -2'))
