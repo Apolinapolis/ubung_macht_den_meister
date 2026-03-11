@@ -1,34 +1,77 @@
-def get_unic_square(s: str) -> list[int]:
-    result = set()
-    for el in s.split():
-        if el.isdigit():
-            square = int(el) * int(el)
-            result.add(square)
-    return sorted(result)
+class File:
+    def __init__(self,path, mode='r'):
+        self.path = path
+        self.mode = mode
+        self.file = None
 
-print(get_unic_square("привет 7 мир 5 7 3"))
-
-
-def get_unic_improved(s:str)->list[int]:
-    result = set()
-    for el in s.split():
+    def __enter__(self):
         try:
-            n = int(el)
-            result.add(n*n)
-        except ValueError:
-            pass
-    return sorted(result)
+            self.file = open(self.path, self.mode)
+        except FileNotFoundError:
+            self.file = open(self.path, mode='w')
+        return self.file
+
+    def __exit__(self, exc_type, exc_value, exc_tb):
+        if self.file:
+            self.file.close()
+        if exc_type and issubclass(exc_type, OSError):
+            return True
+        return False
 
 
-print(get_unic_improved("привет 7 мир 5 7 3 -13"))
+with File('new.txt', mode='a') as f:
+    print('creating file')
 
 
 
-def binary_array_to_number(arr):
-    result = ''
-    for el in arr:
-        result += el
-    return int(result,2)
+class Example:
+    def __init__(self):
+        self.public = 'public'
+        self._protected = 'protected'
+        self.__private = 'private'
+
+    @property
+    def private(self):
+        return self.__private
+
+class Child(Example):
+    'Dockstring only'
+
+new = Child()
 
 
-print(binary_array_to_number([0,1,0,0,1]))
+class A:
+    def __init__(self):
+        print("A")
+
+
+class B(A):
+    def __init__(self):
+        super().__init__()
+        print("B")
+
+
+class C(A):
+    def __init__(self):
+        super().__init__()
+        print("C")
+
+
+class D(B, C):
+    def __init__(self):
+        super().__init__()
+        print("D")
+
+print(D()) # A-C-B-D
+
+
+import pytest
+
+@pytest.fixture
+def foo(request):
+    param = request.params.get('param_name')
+    pass
+
+@pytest.mark.parametrize('param_name', [...], indirect=True)
+def test_func(foo):
+    pass
