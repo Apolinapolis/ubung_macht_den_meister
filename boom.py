@@ -1,77 +1,53 @@
-class File:
-    def __init__(self,path, mode='r'):
-        self.path = path
-        self.mode = mode
-        self.file = None
+# Вернуть сумму вхождений
+statuses = 'skip, pass, failed, failed, pass, pass, error, skip, error, error'
 
-    def __enter__(self):
-        try:
-            self.file = open(self.path, self.mode)
-        except FileNotFoundError:
-            self.file = open(self.path, mode='w')
-        return self.file
+def summarize_result(data:str)->dict:
+    data = data.split(',')
+    counter = {}
+    for el in data:
+        el = el.strip()
+        if el in counter:
+            counter[el]+=1
+        else:
+            counter[el] = 1
+    return dict(sorted(counter.items(), key=lambda x: x[1], reverse=True)) # Добавлена сортировка
 
-    def __exit__(self, exc_type, exc_value, exc_tb):
-        if self.file:
-            self.file.close()
-        if exc_type and issubclass(exc_type, OSError):
-            return True
-        return False
+print(summarize_result(statuses))
 
 
-with File('new.txt', mode='a') as f:
-    print('creating file')
+# Вариант через импорт
+from collections import Counter
+
+def summarize_result_two(data:str)->dict:
+    return dict(Counter(x.strip() for x in data.split(',')))
+
+print(summarize_result_two(statuses))
 
 
 
-class Example:
-    def __init__(self):
-        self.public = 'public'
-        self._protected = 'protected'
-        self.__private = 'private'
+# Написать класс Car:  свойства color (текст),  price (нецелое число). Метод get_final_price — если цвет «красный», цена на 15% дороже от базовой.
+# Создать класс HeavyCar, унаследованный от Car: свойство has_trailer (булево). Переопределить get_final_price: прицеп — +25% от базовой цены. Использовать super().
 
-    @property
-    def private(self):
-        return self.__private
+class Car:
+    def __init__(self, color:str, price:float):
+        self.color = color
+        self.price = price
 
-class Child(Example):
-    'Dockstring only'
-
-new = Child()
+    def get_final_price(self):
+        if self.color == 'red':
+            return self.price * 1.15
+        return self.price
 
 
-class A:
-    def __init__(self):
-        print("A")
+class HeavyCar(Car):
+    def __init__(self, color:str, price:float, has_trailer:bool):
+        self.has_trailer = has_trailer
+        super().__init__(color, price)
 
+    def get_final_price(self, digits=2)->float:
+        price = super().get_final_price()
 
-class B(A):
-    def __init__(self):
-        super().__init__()
-        print("B")
+        if self.has_trailer:
+            price += self.price * 0.25
 
-
-class C(A):
-    def __init__(self):
-        super().__init__()
-        print("C")
-
-
-class D(B, C):
-    def __init__(self):
-        super().__init__()
-        print("D")
-
-print(D()) # A-C-B-D
-
-
-import pytest
-
-@pytest.fixture
-def foo(request):
-    param = request.params.get('param_name')
-    pass
-
-@pytest.mark.parametrize('param_name', [...], indirect=True)
-def test_func(foo):
-    pass
+        return round(price, digits)
