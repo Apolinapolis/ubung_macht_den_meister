@@ -125,3 +125,5 @@ def get_unic_squares(data:str)->list:
     return sorted(result)
 
 print(get_unic_squares('sdjk 82 ksjdf l 8 24 -2'))
+
+

@@ -1,3 +1,8 @@
+from trace import Trace
+
+from requests import session
+
+
 class File:
     """CONTEXT"""
     def __init__(self,path, mode='r'):
@@ -39,8 +44,6 @@ class Example:
 class Child(Example):
     'Dockstring only'
 
-new = Child()
-
 
 #IT_one задача на sql
 
@@ -80,8 +83,9 @@ new = Child()
 #Задачи на Python
 
 # Описание:
-# Требуется реализовать вывод функции print 2х классов: Parent, Child.
-# При двух ограничениях: 1 - нельзя писать вывод Parent класса прямым текстом. 2 - нельзя менять наследуемость класса Child
+# Требуется реализовать вывод функции print 2х классов: Parent, Child. При двух ограничениях:
+# 1 - нельзя писать вывод Parent класса прямым текстом.
+# 2 - нельзя менять наследуемость класса Child
 # Можно менять поведение класса Child
 # Результат вывести на экран.
 
@@ -93,7 +97,6 @@ new = Child()
 # class Child(Parent):
 #     def __init__(self):
 #         print("Child")
-
 # Результат:
 # Parent
 # Child
@@ -105,7 +108,104 @@ new = Child()
 # Результат вывести на экран.
 
 # Входные данные:
-# [1, 2, 3, 2, 4, 1, 5, 2]
+v = [1, 2, 3, 2, 4, 1, 5, 2]
 
 # Результат:
 # (1, 2)
+
+# • pytest — запускает все тесты по умолчанию
+# • pytest test_file.py — запустить тесты только из указанного файла
+# • pytest test_file.py::TestClass::test_method — запустить конкретный тестовый метод в классе
+# • pytest -v — подробный (verbose) вывод результатов тестов
+# • pytest -k "строка" — запуск тестов по имени (паттерн в имени теста)
+# • pytest -m markname — запуск тестов с определённой меткой (mark)
+# • pytest --maxfail=3 — остановить после 3 первых неудачных тестов
+# • pytest --tb=short — короткий формат вывода traceback ошибок
+#
+#
+# • Часто используется просто pytest или с опцией -v для подробностей
+# • Для интеграции с CI (например, GitLab CI) команды обычно прописывают в .gitlab-ci.yml, например:
+
+# script:
+#     - pytest -v --maxfail=1
+
+import pytest
+#
+# order = []
+#
+# @pytest.fixture(scope='session')
+# def s1():
+#     order.append('s1')
+#
+# @pytest.fixture(scope='module')
+# def m1():
+#     order.append('m1')
+#
+# @pytest.fixture()
+# def f3():
+#     order.append('f3')
+#
+# @pytest.fixture(scope='session', autouse=True)
+# def a1():
+#     order.append('a1')
+#
+# @pytest.fixture()
+# def f2():
+#     order.append('f2')
+#
+# @pytest.fixture()
+# def f1(f3):
+#     order.append('f1')
+#
+# def test_order(f1,m1,f2,s1):
+#     assert order == ['a1','s1','m1','f3', 'f1', 'f2']
+
+
+# кратно 2 = "би"
+# кратно 7 = "зон"
+# кратно 2и7 = "бизон"
+
+
+# for n in range(1, 101000):
+#     if n % 2 == 0 and n % 7==0:
+#         print('bizone')
+#     elif n % 7==0:
+#         print('zone')
+#     elif n % 2==0:
+#         print('bi')
+#     else:
+#         print(n)
+
+#
+# def my_generate():
+#     count = 1
+#     while True:
+#         yield count
+#         count += 1
+#
+# g = my_generate()
+#
+# for n in range(1,5):
+#     print(next(g))
+
+
+# 200 при успехе
+# отдает адрес ip
+# и сообщение по свагеру
+
+import pytest
+import requests
+import socket
+
+def test_get_ip():
+    url='https://httpbin.dmuth.org/ip'
+    response = requests.get(url,timeout=2)
+    hostname = socket.gethostname()  # получаем имя хоста
+    ip_address = socket.gethostbyname(hostname)  # преобразуем в IP
+    data = response.json()
+    current_ip = data['ip']
+    assert response.status_code == 200
+    assert ip_address == current_ip
+    assert 'message' in data
+    assert data['message'][0] == "If you're looking for v4 or v6 specific endpoints, try /ip/v4 or /ip/v6."
+    assert data['message'][1] == "If you want to ping this IP and graph the results, I built an app for that too: https://github.com/dmuth/grafana-network-monitor"

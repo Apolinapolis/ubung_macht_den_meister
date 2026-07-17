@@ -117,26 +117,26 @@ users_data = [{'name': 'Nikolay', 'last_name': 'Petrov', 'age': 43, 'city': 'Mos
     {'name': 'Nikolay', 'age': 41, 'last_name': 'Ivanov', 'city': 'Moscow'}]
 
 import pytest
-
-@pytest.fixture
-def users():
-    return users_data
-
-def test_no_less_18(users):
-    for user in users:
-        assert user['age'] >= 18
-
-@pytest.mark.parametrize('user', users_data)
-def test_less_60_users_age(user):
-    assert user['age'] <= 60
-
-@pytest.fixture
-def msk_users_count(users):
-    return len([u for u in users if u['city'] == 'Moscow'])
-
-def test_moscow_users(msk_users_count):
-    assert msk_users_count > 0
-    print(f'it is {msk_users_count} users from Moscow')
+#
+# @pytest.fixture
+# def users():
+#     return users_data
+#
+# def test_no_less_18(users):
+#     for user in users:
+#         assert user['age'] >= 18
+#
+# @pytest.mark.parametrize('user', users_data)
+# def test_less_60_users_age(user):
+#     assert user['age'] <= 60
+#
+# @pytest.fixture
+# def msk_users_count(users):
+#     return len([u for u in users if u['city'] == 'Moscow'])
+#
+# def test_moscow_users(msk_users_count):
+#     assert msk_users_count > 0
+#     print(f'it is {msk_users_count} users from Moscow')
 
 
 
@@ -272,3 +272,45 @@ class User:
 #         print("Passed!")
 #     else:
 #         print("Failed!")
+
+
+s = "nana"
+
+def dict_creator(s:str)->dict:
+    result = {}
+    for el in s:
+        if el in result:
+            result[el] += 1
+        else:
+            result[el] = 1
+    return result
+
+
+def find_single_symbol(s:str)->str:
+    for el in s.lower():
+        if s.count(el) == 1:
+            print(el)
+            return el
+
+def get_unic_names(names:list)->list:
+    result = set()
+    for el in names:
+        result.add(el['name'])
+    return list(result)
+
+us = [
+    {"id": 1, "name": "Alex"},
+    {"id": 2, "name": "John"},
+    {"id": 3, "name": "Alex"},
+]
+
+
+def symbol_counter(text:str)->dict[str,int]:
+    result = {}
+
+    for el in text:
+        result[el] = result.get(el,0)+1
+    return dict(sorted(result.items(), key=lambda items: items[1], reverse=True))
+
+if __name__ == "__main__":
+    print(symbol_counter('sdfjqlaopq412asf'))
